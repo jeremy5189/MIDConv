@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+            
+
+    <style>
+    .col-md-4 {
+        text-align: center;
+    }
+    .convert {
+        margin-top: 2.4em;
+    }
+    .btn-container {
+        padding-top: 30px;
+    }
+    .input {
+        width: 80%;
+    }
+    .hr {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+    </style>
+    <script>
+    var MIDConv = {
+
+        toHex: function(dec_str) {
+            
+            // Convert decimal to hex string
+            var normal_hex = parseInt(dec_str).toString(16);
+
+            console.log(normal_hex);
+
+            // Reverse the hex into mifare UID format
+            return normal_hex.substr(6, 2) + 
+                   normal_hex.substr(4, 2) + 
+                   normal_hex.substr(2, 2) +
+                   normal_hex.substr(0, 2);
+        },
+
+        toDec: function(hex_str) {
+
+            var normal_hex = hex_str.substr(6, 2) +
+                             hex_str.substr(4, 2) +
+                             hex_str.substr(2, 2) +
+                             hex_str.substr(0, 2);
+
+            console.log(normal_hex);
+
+            return parseInt(normal_hex, 16);
+
+        }
+
+    }
+
+    var conv = function(type, val) {
+
+        if ( type == 'dec' ) {
+            $('#input-hex').val(MIDConv.toHex(val));
+        }
+        else if ( type  == 'hex' ) {
+            $('#input-dec').val(MIDConv.toDec(val));
+        }
+
+    }
+
+    var reverse = {
+        hex: 'dec',
+        dec: 'hex'
+    };
+
+    $(function() {
+
+        $('.input').keydown(function(event) {
+            
+            // Got Enter
+            if ( event.which == 13 ) {
+                conv($(this).data('type'), $(this).val());
+            }
+
+        });
+
+    });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>MIDConv</h1>
+            <p class="lead">Mifare Classic (13.56 MHz) UID Converter (HEX, DEC)</p>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Decimal (10 digits)</h4>
+                <input type="text" class="input" data-type="dec" id="input-dec">
+            </div>
+            <!--div class="col-md-4 btn-container">
+                button type="button" class="btn btn-primary" class="convert" data-type="hex">==&gt;</button>
+                <button type="button" class="btn btn-primary" class="convert" data-type="dec">&lt;==</button>
+            </div-->
+            <div class="col-md-6">
+                <h4>Hex (8 digits)</h4>
+                <input type="text" class="input" data-type="hex" id="input-hex">
+            </div>
+        </div>
+
+        <hr class="hr">
+
+        <!--div class="row" id="record">
+            <div class="col-md-12">
+                <table class="table table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Decimal</th>
+                            <th>Hex</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                </table>
+            </div>
+            <hr class="hr">
+        </div-->
+        
+        <p>&copy; 2015 Jeremy Yen. Released under MIT License.</p>
+    </div>
+</body>
+</html>
